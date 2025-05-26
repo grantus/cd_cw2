@@ -1,0 +1,3 @@
+Hello, Docker-Compose world!
+This is a quick sample file
+with a few lines of text.

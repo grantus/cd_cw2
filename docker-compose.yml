@@ -1,0 +1,33 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  file_store:
+    build: ./file_store
+    ports:
+      - "5003:5000"
+
+  analysis:
+    build: ./analysis
+    volumes:
+      - ./analysis/stats.db:/app/stats.db
+    ports:
+      - "5002:5000"
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "5001:5000"
+
+    environment:
+      FILE_STORE_URL: http://file_store:5000
+      ANALYSIS_URL:   http://analysis:5000
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER:     postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB:       postgres_db
+    ports:
+      - "5431:5432"
