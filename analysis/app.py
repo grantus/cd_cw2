@@ -1,10 +1,11 @@
-# analysis/app.py
 from flask import Flask, request, jsonify, abort
 import sqlite3, os
 
 DB_PATH = os.path.join(os.path.dirname(__file__), 'stats.db')
 
 app = Flask(__name__)
+UPLOAD_DIR = os.path.abspath(os.getenv("UPLOAD_DIR", "uploads"))
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -17,7 +18,7 @@ def analyze():
     # … do your analysis lookup, stats.db queries, etc. …
     result = {
       "file_id": file_id,
-      "score": 0.42,            # example payload
+      "score": 0.42,
       "summary": "…",
     }
     return jsonify(result), 200
